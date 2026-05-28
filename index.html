@@ -1,276 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odpama — Salud Comercial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --bg: #0D0F14; --bg2: #13161E; --bg3: #1A1E28;
+      --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+      --text: #E8EAF0; --muted: #6B7280; --muted2: #9CA3AF;
+      --accent: #3B82F6; --accent2: #60A5FA;
+      --danger: #F87171; --warn: #FBBF24; --ok: #34D399;
+      --danger-bg: rgba(248,113,113,0.1); --warn-bg: rgba(251,191,36,0.1); --ok-bg: rgba(52,211,153,0.1);
+      --radius: 12px; --radius-sm: 8px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { font-family: 'Syne', sans-serif; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 3rem; }
 
-<h2 class="sr-only">Dashboard de salud comercial de Odpama — ingresos, concentración de clientes, pipeline y alertas.</h2>
+    .topbar { display:flex; align-items:center; justify-content:space-between; padding:1.5rem 0 1.25rem; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
+    .topbar-left { display:flex; align-items:center; gap:12px; }
+    .logo-mark { width:34px; height:34px; border-radius:9px; background:linear-gradient(135deg,#1d4ed8,#3b82f6); display:flex; align-items:center; justify-content:center; box-shadow:0 0 18px rgba(59,130,246,0.4); }
+    .logo-mark i { color:#fff; font-size:17px; }
+    .brand-name { font-size:15px; font-weight:700; letter-spacing:.01em; }
+    .brand-sub { font-size:10px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-top:1px; }
+    .topbar-right { display:flex; align-items:center; gap:8px; }
+    .live-badge { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--ok); background:var(--ok-bg); border:1px solid rgba(52,211,153,0.2); border-radius:999px; padding:3px 10px; font-family:'DM Mono',monospace; }
+    .live-dot { width:6px; height:6px; border-radius:50%; background:var(--ok); animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+    .btn-refresh { display:flex; align-items:center; gap:5px; font-size:11px; font-family:'Syne',sans-serif; font-weight:500; color:var(--muted2); background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:5px 11px; cursor:pointer; transition:all .2s; }
+    .btn-refresh:hover { color:var(--text); border-color:var(--accent); background:rgba(59,130,246,0.08); }
 
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    .section-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:.75rem; display:flex; align-items:center; gap:8px; }
+    .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(to right,var(--border2),transparent); }
 
-<style>
-:root {
-  --bg:        #0D0F14;
-  --bg2:       #13161E;
-  --bg3:       #1A1E28;
-  --border:    rgba(255,255,255,0.07);
-  --border2:   rgba(255,255,255,0.12);
-  --text:      #E8EAF0;
-  --muted:     #6B7280;
-  --muted2:    #9CA3AF;
-  --accent:    #3B82F6;
-  --accent2:   #60A5FA;
-  --danger:    #F87171;
-  --warn:      #FBBF24;
-  --ok:        #34D399;
-  --danger-bg: rgba(248,113,113,0.1);
-  --warn-bg:   rgba(251,191,36,0.1);
-  --ok-bg:     rgba(52,211,153,0.1);
-  --radius:    12px;
-  --radius-sm: 8px;
-}
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem; }
+    .kpi-card { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1.1rem; position:relative; overflow:hidden; transition:border-color .2s,transform .2s; }
+    .kpi-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--stripe,transparent); border-radius:var(--radius) var(--radius) 0 0; }
+    .kpi-card:hover { border-color:var(--border2); transform:translateY(-1px); }
+    .kpi-ok { --stripe:linear-gradient(90deg,var(--ok),transparent); }
+    .kpi-warn { --stripe:linear-gradient(90deg,var(--warn),transparent); }
+    .kpi-danger { --stripe:linear-gradient(90deg,var(--danger),transparent); }
+    .kpi-label { font-size:10px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .kpi-value { font-size:24px; font-weight:700; line-height:1; color:var(--text); font-variant-numeric:tabular-nums; }
+    .kpi-ok .kpi-value { color:var(--ok); }
+    .kpi-warn .kpi-value { color:var(--warn); }
+    .kpi-danger .kpi-value { color:var(--danger); }
+    .kpi-sub { font-size:10px; color:var(--muted); margin-top:5px; font-family:'DM Mono',monospace; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:1.25rem; }
+    @media(max-width:560px){ .two-col{ grid-template-columns:1fr; } }
+    .full-row { margin-bottom:1.25rem; }
 
-body {
-  font-family: 'Syne', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  -webkit-font-smoothing: antialiased;
-}
+    .panel { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; transition:border-color .2s; }
+    .panel:hover { border-color:var(--border2); }
+    .panel-title { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--muted2); margin-bottom:1rem; display:flex; align-items:center; gap:7px; }
+    .panel-title i { font-size:14px; color:var(--accent); }
 
-/* ── TOPBAR ── */
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 0 1.25rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.5rem;
-}
-.topbar-left { display: flex; align-items: center; gap: 12px; }
-.logo-mark {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: linear-gradient(135deg, #1d4ed8, #3b82f6);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 16px rgba(59,130,246,0.35);
-}
-.logo-mark i { color: #fff; font-size: 16px; }
-.brand { display: flex; flex-direction: column; gap: 1px; }
-.brand-name { font-size: 14px; font-weight: 700; letter-spacing: .01em; color: var(--text); }
-.brand-sub { font-size: 10px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .donut-wrap { position:relative; width:130px; height:130px; margin:0 auto .9rem; }
+    .donut-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; pointer-events:none; }
+    .dc-pct { font-size:22px; font-weight:700; color:var(--danger); display:block; line-height:1; }
+    .dc-label { font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-top:2px; }
 
-.topbar-right { display: flex; align-items: center; gap: 8px; }
-.live-badge {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11px; color: var(--ok);
-  background: var(--ok-bg);
-  border: 1px solid rgba(52,211,153,0.2);
-  border-radius: 999px; padding: 3px 10px;
-  font-family: 'DM Mono', monospace;
-}
-.live-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--ok);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: .5; transform: scale(1.3); }
-}
-.btn-refresh {
-  display: flex; align-items: center; gap: 5px;
-  font-size: 11px; font-family: 'Syne', sans-serif; font-weight: 500;
-  color: var(--muted2); background: var(--bg3);
-  border: 1px solid var(--border2); border-radius: var(--radius-sm);
-  padding: 5px 11px; cursor: pointer; transition: all .2s;
-}
-.btn-refresh:hover { color: var(--text); border-color: var(--accent); background: rgba(59,130,246,0.08); }
-.btn-refresh i { font-size: 13px; }
+    .legend { display:flex; flex-direction:column; gap:5px; }
+    .legend-row { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--muted2); }
+    .legend-dot { width:8px; height:8px; border-radius:3px; flex-shrink:0; }
 
-/* ── SECTION LABEL ── */
-.section-label {
-  font-size: 10px; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--muted);
-  margin-bottom: .75rem;
-  display: flex; align-items: center; gap: 8px;
-}
-.section-label::after {
-  content: '';
-  flex: 1; height: 1px;
-  background: linear-gradient(to right, var(--border2), transparent);
-}
+    .clients-list { display:flex; flex-direction:column; gap:8px; }
+    .client-row { display:flex; align-items:center; gap:8px; }
+    .client-name { font-size:11px; color:var(--text); min-width:82px; flex-shrink:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .client-bar-bg { flex:1; height:4px; border-radius:2px; background:var(--bg3); overflow:hidden; }
+    .client-bar-fill { height:100%; border-radius:2px; transition:width .6s cubic-bezier(.4,0,.2,1); }
+    .client-pct { font-size:10px; color:var(--muted); min-width:28px; text-align:right; font-family:'DM Mono',monospace; }
 
-/* ── KPI GRID ── */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-  margin-bottom: 1.5rem;
-}
-.kpi-card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1rem 1.1rem;
-  position: relative; overflow: hidden;
-  transition: border-color .2s, transform .2s;
-}
-.kpi-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--stripe, transparent);
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-.kpi-card:hover { border-color: var(--border2); transform: translateY(-1px); }
-.kpi-ok   { --stripe: linear-gradient(90deg, var(--ok), transparent); }
-.kpi-warn { --stripe: linear-gradient(90deg, var(--warn), transparent); }
-.kpi-danger { --stripe: linear-gradient(90deg, var(--danger), transparent); }
+    .alert-list { display:flex; flex-direction:column; gap:6px; }
+    .alert-item { display:flex; align-items:flex-start; gap:9px; border-radius:var(--radius-sm); padding:9px 11px; font-size:11px; line-height:1.5; border:1px solid transparent; }
+    .alert-item.danger { background:var(--danger-bg); color:var(--danger); border-color:rgba(248,113,113,0.15); }
+    .alert-item.warn   { background:var(--warn-bg);   color:var(--warn);   border-color:rgba(251,191,36,0.15); }
+    .alert-item.ok     { background:var(--ok-bg);     color:var(--ok);     border-color:rgba(52,211,153,0.15); }
+    .alert-item i { font-size:14px; margin-top:1px; flex-shrink:0; }
+    .alert-text strong { font-weight:600; display:block; font-size:11px; }
+    .alert-text span { opacity:.8; }
 
-.kpi-label { font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-.kpi-value {
-  font-size: 24px; font-weight: 700; line-height: 1;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-.kpi-ok .kpi-value    { color: var(--ok); }
-.kpi-warn .kpi-value  { color: var(--warn); }
-.kpi-danger .kpi-value { color: var(--danger); }
-.kpi-sub { font-size: 10px; color: var(--muted); margin-top: 5px; font-family: 'DM Mono', monospace; }
+    .leads-table { width:100%; font-size:11px; border-collapse:collapse; }
+    .leads-table th { text-align:left; color:var(--muted); font-weight:600; letter-spacing:.06em; text-transform:uppercase; font-size:9px; padding:0 6px 8px; border-bottom:1px solid var(--border); }
+    .leads-table td { padding:7px 6px; border-bottom:1px solid var(--border); color:var(--text); vertical-align:middle; }
+    .leads-table tr:last-child td { border-bottom:none; }
+    .leads-table tbody tr { transition:background .15s; }
+    .leads-table tbody tr:hover { background:rgba(255,255,255,0.03); }
+    .pill { display:inline-flex; align-items:center; gap:4px; font-size:9px; padding:2px 7px; border-radius:999px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; }
+    .pill-new    { background:rgba(59,130,246,0.15);  color:var(--accent2); border:1px solid rgba(59,130,246,0.2); }
+    .pill-follow { background:var(--warn-bg);          color:var(--warn);    border:1px solid rgba(251,191,36,0.2); }
+    .pill-closed { background:var(--ok-bg);            color:var(--ok);      border:1px solid rgba(52,211,153,0.2); }
 
-/* ── LAYOUT ── */
-.two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 1.25rem;
-}
-@media (max-width: 560px) { .two-col { grid-template-columns: 1fr; } }
-.full-row { margin-bottom: 1.25rem; }
+    .trend-wrap     { position:relative; width:100%; height:160px; }
+    .bar-chart-wrap { position:relative; width:100%; height:180px; }
 
-/* ── PANEL ── */
-.panel {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.1rem 1.2rem;
-  transition: border-color .2s;
-}
-.panel:hover { border-color: var(--border2); }
-.panel-title {
-  font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase;
-  color: var(--muted2);
-  margin-bottom: 1rem;
-  display: flex; align-items: center; gap: 7px;
-}
-.panel-title i { font-size: 14px; color: var(--accent); }
-
-/* ── DONUT ── */
-.donut-wrap {
-  position: relative; width: 130px; height: 130px; margin: 0 auto .9rem;
-}
-.donut-center {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%,-50%); text-align: center; pointer-events: none;
-}
-.dc-pct { font-size: 22px; font-weight: 700; color: var(--danger); display: block; line-height: 1; }
-.dc-label { font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
-
-.legend { display: flex; flex-direction: column; gap: 5px; }
-.legend-row { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted2); }
-.legend-dot { width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0; }
-
-/* ── CLIENT BARS ── */
-.clients-list { display: flex; flex-direction: column; gap: 8px; }
-.client-row { display: flex; align-items: center; gap: 8px; }
-.client-name {
-  font-size: 11px; color: var(--text);
-  min-width: 82px; flex-shrink: 0;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.client-bar-bg {
-  flex: 1; height: 4px; border-radius: 2px;
-  background: var(--bg3); overflow: hidden;
-}
-.client-bar-fill {
-  height: 100%; border-radius: 2px;
-  transition: width .6s cubic-bezier(.4,0,.2,1);
-}
-.client-pct { font-size: 10px; color: var(--muted); min-width: 28px; text-align: right; font-family: 'DM Mono', monospace; }
-
-/* ── ALERTS ── */
-.alert-list { display: flex; flex-direction: column; gap: 6px; }
-.alert-item {
-  display: flex; align-items: flex-start; gap: 9px;
-  border-radius: var(--radius-sm); padding: 9px 11px;
-  font-size: 11px; line-height: 1.5;
-  border: 1px solid transparent;
-}
-.alert-item.danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(248,113,113,0.15); }
-.alert-item.warn   { background: var(--warn-bg);   color: var(--warn);   border-color: rgba(251,191,36,0.15); }
-.alert-item.ok     { background: var(--ok-bg);     color: var(--ok);     border-color: rgba(52,211,153,0.15); }
-.alert-item i { font-size: 14px; margin-top: 1px; flex-shrink: 0; }
-.alert-text strong { font-weight: 600; display: block; font-size: 11px; }
-.alert-text span { opacity: .8; }
-
-/* ── LEADS TABLE ── */
-.leads-table { width: 100%; font-size: 11px; border-collapse: collapse; }
-.leads-table th {
-  text-align: left; color: var(--muted); font-weight: 600;
-  letter-spacing: .06em; text-transform: uppercase; font-size: 9px;
-  padding: 0 6px 8px; border-bottom: 1px solid var(--border);
-}
-.leads-table td {
-  padding: 7px 6px; border-bottom: 1px solid var(--border);
-  color: var(--text); vertical-align: middle;
-}
-.leads-table tr:last-child td { border-bottom: none; }
-.leads-table tbody tr { transition: background .15s; }
-.leads-table tbody tr:hover { background: rgba(255,255,255,0.03); }
-
-.pill {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 9px; padding: 2px 7px; border-radius: 999px;
-  font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
-}
-.pill-new    { background: rgba(59,130,246,0.15);  color: var(--accent2); border: 1px solid rgba(59,130,246,0.2); }
-.pill-follow { background: var(--warn-bg);          color: var(--warn);    border: 1px solid rgba(251,191,36,0.2); }
-.pill-closed { background: var(--ok-bg);            color: var(--ok);      border: 1px solid rgba(52,211,153,0.2); }
-
-/* ── CHARTS ── */
-.trend-wrap     { position: relative; width: 100%; height: 160px; }
-.bar-chart-wrap { position: relative; width: 100%; height: 180px; }
-
-/* ── FOOTER ── */
-.footer-area {
-  border-top: 1px solid var(--border);
-  margin-top: 1rem;
-  padding-top: .9rem;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
-}
-.footer-note {
-  font-size: 10px; color: var(--muted);
-  font-family: 'DM Mono', monospace;
-}
-.sendbar { display: flex; gap: 6px; flex-wrap: wrap; }
-.sendbar button {
-  font-size: 10px; font-family: 'Syne', sans-serif; font-weight: 500;
-  color: var(--muted2); background: var(--bg3);
-  border: 1px solid var(--border2); border-radius: var(--radius-sm);
-  padding: 5px 10px; cursor: pointer; transition: all .2s;
-}
-.sendbar button:hover { color: var(--text); border-color: var(--accent); background: rgba(59,130,246,0.08); }
-</style>
-
-<div class="dash" style="padding: 0 0 2rem;">
+    .footer-area { border-top:1px solid var(--border); margin-top:1rem; padding-top:.9rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .footer-note { font-size:10px; color:var(--muted); font-family:'DM Mono',monospace; }
+    .sendbar { display:flex; gap:6px; flex-wrap:wrap; }
+    .sendbar button { font-size:10px; font-family:'Syne',sans-serif; font-weight:500; color:var(--muted2); background:var(--bg3); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:5px 10px; cursor:pointer; transition:all .2s; }
+    .sendbar button:hover { color:var(--text); border-color:var(--accent); background:rgba(59,130,246,0.08); }
+  </style>
+</head>
+<body>
+<div class="wrap">
 
   <div class="topbar">
     <div class="topbar-left">
-      <div class="logo-mark"><i class="ti ti-droplet-half-2" aria-hidden="true"></i></div>
-      <div class="brand">
-        <span class="brand-name">Odpama</span>
-        <span class="brand-sub">Salud comercial</span>
+      <div class="logo-mark"><i class="ti ti-droplet-half-2"></i></div>
+      <div>
+        <div class="brand-name">Odpama</div>
+        <div class="brand-sub">Salud comercial</div>
       </div>
     </div>
     <div class="topbar-right">
       <div class="live-badge"><span class="live-dot"></span>en vivo</div>
       <button class="btn-refresh" onclick="simularActualizacion()">
-        <i class="ti ti-refresh" aria-hidden="true"></i> Actualizar
+        <i class="ti ti-refresh"></i> Actualizar
       </button>
     </div>
   </div>
@@ -280,9 +131,9 @@ body {
 
   <div class="two-col">
     <div class="panel">
-      <div class="panel-title"><i class="ti ti-chart-pie" aria-hidden="true"></i> Concentración de ingresos</div>
+      <div class="panel-title"><i class="ti ti-chart-pie"></i> Concentración de ingresos</div>
       <div class="donut-wrap">
-        <canvas id="donutChart" role="img" aria-label="Concentración de ingresos por cliente"></canvas>
+        <canvas id="donutChart"></canvas>
         <div class="donut-center">
           <span class="dc-pct" id="herdez-pct">52%</span>
           <span class="dc-label">Herdez</span>
@@ -290,22 +141,20 @@ body {
       </div>
       <div class="legend" id="donut-legend"></div>
     </div>
-
     <div class="panel">
-      <div class="panel-title"><i class="ti ti-users" aria-hidden="true"></i> Ingresos por cliente</div>
+      <div class="panel-title"><i class="ti ti-users"></i> Ingresos por cliente</div>
       <div class="clients-list" id="clients-bars"></div>
     </div>
   </div>
 
   <div class="two-col">
     <div class="panel">
-      <div class="panel-title"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Alertas de retención</div>
+      <div class="panel-title"><i class="ti ti-alert-triangle"></i> Alertas de retención</div>
       <div class="alert-list" id="alerts-list"></div>
     </div>
-
     <div class="panel">
-      <div class="panel-title"><i class="ti ti-speakerphone" aria-hidden="true"></i> Pipeline de leads</div>
-      <table class="leads-table" id="leads-table">
+      <div class="panel-title"><i class="ti ti-speakerphone"></i> Pipeline de leads</div>
+      <table class="leads-table">
         <thead><tr><th>Empresa</th><th>Industria</th><th>Días</th><th>Estado</th></tr></thead>
         <tbody id="leads-tbody"></tbody>
       </table>
@@ -314,28 +163,23 @@ body {
 
   <div class="full-row">
     <div class="panel">
-      <div class="panel-title"><i class="ti ti-chart-line" aria-hidden="true"></i> Tendencia de ingresos — últimos 6 meses</div>
-      <div class="trend-wrap">
-        <canvas id="trendChart" role="img" aria-label="Tendencia de ingresos últimos 6 meses"></canvas>
-      </div>
+      <div class="panel-title"><i class="ti ti-chart-line"></i> Tendencia de ingresos — últimos 6 meses</div>
+      <div class="trend-wrap"><canvas id="trendChart"></canvas></div>
     </div>
   </div>
 
   <div class="full-row">
     <div class="panel">
-      <div class="panel-title"><i class="ti ti-calendar-stats" aria-hidden="true"></i> Último contacto por cliente (días)</div>
-      <div class="bar-chart-wrap">
-        <canvas id="contactChart" role="img" aria-label="Días desde último contacto por cliente"></canvas>
-      </div>
+      <div class="panel-title"><i class="ti ti-calendar-stats"></i> Último contacto por cliente (días)</div>
+      <div class="bar-chart-wrap"><canvas id="contactChart"></canvas></div>
     </div>
   </div>
 
   <div class="footer-area">
-    <p class="footer-note" id="footer-note">Cargando datos…</p>
+    <p class="footer-note" id="footer-note">cargando datos…</p>
     <div class="sendbar">
-      <button onclick="sendPrompt('¿Qué acciones concretas debo tomar con los clientes en alerta esta semana?')">Clientes en alerta ↗</button>
-      <button onclick="sendPrompt('Dame el flujo n8n para que este dashboard se actualice automáticamente desde Google Sheets')">Automatizar con n8n ↗</button>
-      <button onclick="sendPrompt('Arma la estructura del Google Sheet que alimenta este dashboard')">Estructura Sheet ↗</button>
+      <button onclick="alert('Abre Claude y pregunta: ¿Qué acciones tomar con clientes en alerta esta semana?')">Clientes en alerta ↗</button>
+      <button onclick="alert('Abre Claude y pregunta sobre automatización con n8n')">Automatizar con n8n ↗</button>
     </div>
   </div>
 
@@ -344,327 +188,164 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const DATA = {
-  mes: "Mayo 2026",
   kpis: [
-    { label: "Ingresos del mes",      value: "$148,500", sub: "+3% vs abril",           cls: "kpi-ok" },
-    { label: "Clientes activos",      value: "8",        sub: "vs 2 hace 3 años",        cls: "" },
-    { label: "Concentración Herdez",  value: "52%",      sub: "Meta: bajar a 35%",       cls: "kpi-danger" },
-    { label: "Leads este mes",        value: "3",        sub: "1 activo, 2 seguimiento", cls: "kpi-warn" },
-    { label: "Clientes en riesgo",    value: "2",        sub: "sin contacto +30 días",   cls: "kpi-warn" },
-    { label: "Días resp. promedio",   value: "1.2",      sub: "Promesa: 24h ✓",          cls: "kpi-ok" },
+    { label:"Ingresos del mes",     value:"$148,500", sub:"+3% vs abril",           cls:"kpi-ok" },
+    { label:"Clientes activos",     value:"8",        sub:"vs 2 hace 3 años",        cls:"" },
+    { label:"Concentración Herdez", value:"52%",      sub:"Meta: bajar a 35%",       cls:"kpi-danger" },
+    { label:"Leads este mes",       value:"3",        sub:"1 activo, 2 seguimiento", cls:"kpi-warn" },
+    { label:"Clientes en riesgo",   value:"2",        sub:"sin contacto +30 días",   cls:"kpi-warn" },
+    { label:"Días resp. promedio",  value:"1.2",      sub:"Promesa: 24h ✓",          cls:"kpi-ok" },
   ],
   clientes: [
-    { nombre: "Herdez",              pct: 52, color: "#F87171", meses: 24 },
-    { nombre: "Hotel Westin",        pct: 11, color: "#3B82F6", meses: 18 },
-    { nombre: "Tequila Don M.",      pct: 9,  color: "#60A5FA", meses: 14 },
-    { nombre: "Aceros SLP",          pct: 8,  color: "#34D399", meses: 9 },
-    { nombre: "Jugos del Norte",     pct: 7,  color: "#93C5FD", meses: 6 },
-    { nombre: "Cervecería Artesanal",pct: 6,  color: "#6EE7B7", meses: 5 },
-    { nombre: "Hotel NH",            pct: 4,  color: "#BFDBFE", meses: 3 },
-    { nombre: "Empacadora Bajío",    pct: 3,  color: "#374151", meses: 2 },
+    { nombre:"Herdez",               pct:52, color:"#F87171" },
+    { nombre:"Hotel Westin",         pct:11, color:"#3B82F6" },
+    { nombre:"Tequila Don M.",       pct:9,  color:"#60A5FA" },
+    { nombre:"Aceros SLP",           pct:8,  color:"#34D399" },
+    { nombre:"Jugos del Norte",      pct:7,  color:"#93C5FD" },
+    { nombre:"Cervecería Artesanal", pct:6,  color:"#6EE7B7" },
+    { nombre:"Hotel NH",             pct:4,  color:"#BFDBFE" },
+    { nombre:"Empacadora Bajío",     pct:3,  color:"#374151" },
   ],
   alertas: [
-    { tipo: "danger", titulo: "Empacadora Bajío",     msg: "47 días sin contacto. Riesgo de churn alto.", icon: "ti-alert-circle" },
-    { tipo: "warn",   titulo: "Hotel NH",             msg: "31 días sin contacto. Programar llamada.",    icon: "ti-clock" },
-    { tipo: "warn",   titulo: "Cervecería Artesanal", msg: "Análisis de marzo fuera de parámetro.",       icon: "ti-flask" },
-    { tipo: "ok",     titulo: "Herdez",               msg: "Reporte mensual enviado. Contrato activo.",   icon: "ti-circle-check" },
+    { tipo:"danger", titulo:"Empacadora Bajío",     msg:"47 días sin contacto. Riesgo de churn alto.", icon:"ti-alert-circle" },
+    { tipo:"warn",   titulo:"Hotel NH",             msg:"31 días sin contacto. Programar llamada.",    icon:"ti-clock" },
+    { tipo:"warn",   titulo:"Cervecería Artesanal", msg:"Análisis de marzo fuera de parámetro.",       icon:"ti-flask" },
+    { tipo:"ok",     titulo:"Herdez",               msg:"Reporte mensual enviado. Contrato activo.",   icon:"ti-circle-check" },
   ],
   leads: [
-    { empresa: "Alimentos La Sierra",  industria: "Alimentos",    dias: 5,  estado: "new" },
-    { empresa: "Hotel Real de Minas",  industria: "Hospitalidad", dias: 12, estado: "follow" },
-    { empresa: "Destilería Cielo",     industria: "Tequila",      dias: 3,  estado: "new" },
-    { empresa: "Acerera Guanajuato",   industria: "Acero",        dias: 28, estado: "follow" },
+    { empresa:"Alimentos La Sierra", industria:"Alimentos",    dias:5,  estado:"new" },
+    { empresa:"Hotel Real de Minas", industria:"Hospitalidad", dias:12, estado:"follow" },
+    { empresa:"Destilería Cielo",    industria:"Tequila",      dias:3,  estado:"new" },
+    { empresa:"Acerera Guanajuato",  industria:"Acero",        dias:28, estado:"follow" },
   ],
   tendencia: {
-    meses: ["Dic", "Ene", "Feb", "Mar", "Abr", "May"],
-    total:  [128000, 131000, 119000, 138000, 144000, 148500],
-    herdez: [64000,  68000,  62000,  71000,  74000,  77220],
-    resto:  [64000,  63000,  57000,  67000,  70000,  71280],
+    meses:  ["Dic","Ene","Feb","Mar","Abr","May"],
+    total:  [128000,131000,119000,138000,144000,148500],
+    herdez: [64000, 68000, 62000, 71000, 74000, 77220],
+    resto:  [64000, 63000, 57000, 67000, 70000, 71280],
   },
   contacto: {
     clientes: ["Herdez","Hotel Westin","Tequila D.","Aceros SLP","Jugos N.","Cervecería","Hotel NH","Empacadora"],
-    dias:     [3, 8, 12, 19, 22, 28, 31, 47],
+    dias:     [3,8,12,19,22,28,31,47],
   }
 };
 
-const GRID_COLOR  = 'rgba(255,255,255,0.05)';
-const TICK_COLOR  = '#4B5563';
-const FONT_FAMILY = "'DM Mono', monospace";
+const GC='rgba(255,255,255,0.05)', TC='#4B5563', FM="'DM Mono',monospace";
 
-function renderKPIs() {
-  document.getElementById('kpi-grid').innerHTML = DATA.kpis.map(k => `
+function renderKPIs(){
+  document.getElementById('kpi-grid').innerHTML=DATA.kpis.map(k=>`
     <div class="kpi-card ${k.cls}">
       <div class="kpi-label">${k.label}</div>
       <div class="kpi-value">${k.value}</div>
       <div class="kpi-sub">${k.sub}</div>
     </div>`).join('');
 }
-
-function renderClientBars() {
-  document.getElementById('clients-bars').innerHTML = DATA.clientes.map(cl => `
+function renderClientBars(){
+  document.getElementById('clients-bars').innerHTML=DATA.clientes.map(c=>`
     <div class="client-row">
-      <span class="client-name">${cl.nombre}</span>
-      <div class="client-bar-bg">
-        <div class="client-bar-fill" style="width:${cl.pct}%;background:${cl.color}"></div>
-      </div>
-      <span class="client-pct">${cl.pct}%</span>
+      <span class="client-name">${c.nombre}</span>
+      <div class="client-bar-bg"><div class="client-bar-fill" style="width:${c.pct}%;background:${c.color}"></div></div>
+      <span class="client-pct">${c.pct}%</span>
     </div>`).join('');
 }
-
-function renderAlerts() {
-  document.getElementById('alerts-list').innerHTML = DATA.alertas.map(al => `
-    <div class="alert-item ${al.tipo}">
-      <i class="ti ${al.icon}" aria-hidden="true"></i>
-      <div class="alert-text">
-        <strong>${al.titulo}</strong>
-        <span>${al.msg}</span>
-      </div>
+function renderAlerts(){
+  document.getElementById('alerts-list').innerHTML=DATA.alertas.map(a=>`
+    <div class="alert-item ${a.tipo}">
+      <i class="ti ${a.icon}"></i>
+      <div class="alert-text"><strong>${a.titulo}</strong><span>${a.msg}</span></div>
     </div>`).join('');
 }
-
-function renderLeads() {
-  const pills = {
-    new:    ['pill-new',    'Nuevo'],
-    follow: ['pill-follow', 'Seguimiento'],
-    closed: ['pill-closed', 'Cerrado']
-  };
-  document.getElementById('leads-tbody').innerHTML = DATA.leads.map(l => {
-    const [cls, txt] = pills[l.estado] || pills.follow;
-    return `<tr>
-      <td>${l.empresa}</td>
-      <td style="color:var(--muted2)">${l.industria}</td>
-      <td style="color:var(--muted2);font-family:'DM Mono',monospace">${l.dias}d</td>
-      <td><span class="pill ${cls}">${txt}</span></td>
-    </tr>`;
+function renderLeads(){
+  const pills={new:['pill-new','Nuevo'],follow:['pill-follow','Seguimiento'],closed:['pill-closed','Cerrado']};
+  document.getElementById('leads-tbody').innerHTML=DATA.leads.map(l=>{
+    const[cls,txt]=pills[l.estado]||pills.follow;
+    return`<tr><td>${l.empresa}</td><td style="color:var(--muted2)">${l.industria}</td><td style="color:var(--muted2);font-family:${FM}">${l.dias}d</td><td><span class="pill ${cls}">${txt}</span></td></tr>`;
   }).join('');
 }
-
-function renderDonut() {
-  const ctx = document.getElementById('donutChart').getContext('2d');
-  const legend = document.getElementById('donut-legend');
-  legend.innerHTML = DATA.clientes.slice(0,4).map(c => `
-    <div class="legend-row">
-      <div class="legend-dot" style="background:${c.color}"></div>
-      <span>${c.nombre} — ${c.pct}%</span>
-    </div>`).join('') +
-    `<div class="legend-row">
-      <div class="legend-dot" style="background:#374151"></div>
-      <span>Otros — ${DATA.clientes.slice(4).reduce((s,c)=>s+c.pct,0)}%</span>
-    </div>`;
-
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: DATA.clientes.map(c => c.nombre),
-      datasets: [{
-        data: DATA.clientes.map(c => c.pct),
-        backgroundColor: DATA.clientes.map(c => c.color),
-        borderWidth: 2,
-        borderColor: '#13161E',
-        hoverOffset: 5
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false, cutout: '70%',
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` } }
-      }
-    }
-  });
+function renderDonut(){
+  const ctx=document.getElementById('donutChart').getContext('2d');
+  document.getElementById('donut-legend').innerHTML=DATA.clientes.slice(0,4).map(c=>`
+    <div class="legend-row"><div class="legend-dot" style="background:${c.color}"></div><span>${c.nombre} — ${c.pct}%</span></div>`).join('')+
+    `<div class="legend-row"><div class="legend-dot" style="background:#374151"></div><span>Otros — ${DATA.clientes.slice(4).reduce((s,c)=>s+c.pct,0)}%</span></div>`;
+  new Chart(ctx,{type:'doughnut',data:{labels:DATA.clientes.map(c=>c.nombre),datasets:[{data:DATA.clientes.map(c=>c.pct),backgroundColor:DATA.clientes.map(c=>c.color),borderWidth:2,borderColor:'#13161E',hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}}}});
+}
+function renderTrend(){
+  const ctx=document.getElementById('trendChart').getContext('2d');
+  new Chart(ctx,{type:'line',data:{labels:DATA.tendencia.meses,datasets:[
+    {label:'Total', data:DATA.tendencia.total, borderColor:'#3B82F6',backgroundColor:'rgba(59,130,246,0.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:'#3B82F6',borderWidth:2},
+    {label:'Herdez',data:DATA.tendencia.herdez,borderColor:'#F87171',backgroundColor:'transparent',fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#F87171',borderWidth:1.5,borderDash:[4,3]},
+    {label:'Resto', data:DATA.tendencia.resto, borderColor:'#34D399',backgroundColor:'transparent',fill:false,tension:.4,pointRadius:3,pointBackgroundColor:'#34D399',borderWidth:1.5,borderDash:[2,2]},
+  ]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:GC},ticks:{color:TC,font:{size:10,family:FM}}},y:{grid:{color:GC},ticks:{color:TC,font:{size:10,family:FM},callback:v=>'$'+Math.round(v/1000)+'k'}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: $${c.parsed.y.toLocaleString()}`}}}}});
+  const w=document.getElementById('trendChart').closest('.panel');
+  const l=document.createElement('div');
+  l.style.cssText='display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;';
+  l.innerHTML=[{color:'#3B82F6',label:'Total'},{color:'#F87171',label:'Herdez'},{color:'#34D399',label:'Resto'}].map(x=>`<span style="display:flex;align-items:center;gap:5px;font-size:10px;color:#6B7280;font-family:${FM}"><span style="width:10px;height:10px;border-radius:2px;background:${x.color}"></span>${x.label}</span>`).join('');
+  w.appendChild(l);
+}
+function renderContacto(){
+  const ctx=document.getElementById('contactChart').getContext('2d');
+  const dias=DATA.contacto.dias;
+  const colors=dias.map(d=>d>=40?'#F87171':d>=25?'#FBBF24':'#34D399');
+  new Chart(ctx,{type:'bar',data:{labels:DATA.contacto.clientes,datasets:[{data:dias,backgroundColor:colors,borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:GC},ticks:{color:TC,font:{size:10,family:FM}}},y:{grid:{display:false},ticks:{color:'#9CA3AF',font:{size:10,family:FM}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.x} días sin contacto`}}}}});
+  const n=document.createElement('div');
+  n.style.cssText='display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;';
+  n.innerHTML=[{color:'#34D399',label:'Al día (< 25 días)'},{color:'#FBBF24',label:'Atención (25–39 días)'},{color:'#F87171',label:'Riesgo (≥ 40 días)'}].map(x=>`<span style="display:flex;align-items:center;gap:5px;font-size:10px;color:#6B7280;font-family:${FM}"><span style="width:10px;height:10px;border-radius:2px;background:${x.color}"></span>${x.label}</span>`).join('');
+  document.getElementById('contactChart').closest('.panel').appendChild(n);
 }
 
-function renderTrend() {
-  const ctx = document.getElementById('trendChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: DATA.tendencia.meses,
-      datasets: [
-        {
-          label: 'Total',
-          data: DATA.tendencia.total,
-          borderColor: '#3B82F6',
-          backgroundColor: 'rgba(59,130,246,0.08)',
-          fill: true, tension: .4, pointRadius: 3,
-          pointBackgroundColor: '#3B82F6', borderWidth: 2
-        },
-        {
-          label: 'Herdez',
-          data: DATA.tendencia.herdez,
-          borderColor: '#F87171',
-          backgroundColor: 'transparent',
-          fill: false, tension: .4, pointRadius: 3,
-          pointBackgroundColor: '#F87171', borderWidth: 1.5,
-          borderDash: [4,3]
-        },
-        {
-          label: 'Resto',
-          data: DATA.tendencia.resto,
-          borderColor: '#34D399',
-          backgroundColor: 'transparent',
-          fill: false, tension: .4, pointRadius: 3,
-          pointBackgroundColor: '#34D399', borderWidth: 1.5,
-          borderDash: [2,2]
-        },
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      scales: {
-        x: { grid: { color: GRID_COLOR }, ticks: { color: TICK_COLOR, font: { size: 10, family: FONT_FAMILY } } },
-        y: { grid: { color: GRID_COLOR }, ticks: { color: TICK_COLOR, font: { size: 10, family: FONT_FAMILY }, callback: v => '$' + Math.round(v/1000) + 'k' } }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}` } }
-      }
-    }
-  });
+const GITHUB_DATA_URL='https://raw.githubusercontent.com/PatoOdpama/odpama-dashboard/main/data.json';
 
-  const wrap = document.getElementById('trendChart').closest('.panel');
-  const leg = document.createElement('div');
-  leg.style.cssText = 'display:flex;gap:14px;margin-top:10px;flex-wrap:wrap;';
-  leg.innerHTML = [
-    { color: '#3B82F6', label: 'Total' },
-    { color: '#F87171', label: 'Herdez' },
-    { color: '#34D399', label: 'Resto clientes' },
-  ].map(l => `<span style="display:flex;align-items:center;gap:5px;font-size:10px;color:#6B7280;font-family:'DM Mono',monospace">
-    <span style="width:10px;height:10px;border-radius:2px;background:${l.color}"></span>${l.label}
-  </span>`).join('');
-  wrap.appendChild(leg);
-}
+function renderAll(){ renderKPIs();renderClientBars();renderAlerts();renderLeads();renderDonut();renderTrend();renderContacto(); }
 
-function renderContacto() {
-  const ctx = document.getElementById('contactChart').getContext('2d');
-  const dias = DATA.contacto.dias;
-  const colors = dias.map(d => d >= 40 ? '#F87171' : d >= 25 ? '#FBBF24' : '#34D399');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: DATA.contacto.clientes,
-      datasets: [{ data: dias, backgroundColor: colors, borderRadius: 4, borderSkipped: false }]
-    },
-    options: {
-      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      scales: {
-        x: { grid: { color: GRID_COLOR }, ticks: { color: TICK_COLOR, font: { size: 10, family: FONT_FAMILY } } },
-        y: { grid: { display: false },    ticks: { color: '#9CA3AF',   font: { size: 10, family: FONT_FAMILY } } }
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.x} días sin contacto` } }
-      }
-    }
-  });
-
-  const nota = document.createElement('div');
-  nota.style.cssText = 'display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;';
-  nota.innerHTML = [
-    { color: '#34D399', label: 'Al día (< 25 días)' },
-    { color: '#FBBF24', label: 'Atención (25–39 días)' },
-    { color: '#F87171', label: 'Riesgo (≥ 40 días)' },
-  ].map(l => `<span style="display:flex;align-items:center;gap:5px;font-size:10px;color:#6B7280;font-family:'DM Mono',monospace">
-    <span style="width:10px;height:10px;border-radius:2px;background:${l.color}"></span>${l.label}
-  </span>`).join('');
-  document.getElementById('contactChart').closest('.panel').appendChild(nota);
-}
-
-/* ── GITHUB DATA ── */
-const GITHUB_DATA_URL = 'https://raw.githubusercontent.com/PatoOdpama/odpama-dashboard/main/data.json';
-
-function renderAll() {
-  renderKPIs(); renderClientBars(); renderAlerts();
-  renderLeads(); renderDonut(); renderTrend(); renderContacto();
-}
-
-function mergeGithubData(raw) {
-  const r = raw.resumen || {};
-  const clientes = raw.clientes || [];
-  const leads = raw.leads || [];
-  const totalIngresos = r.total_ingresos_mensual || 0;
-  const herdez = clientes.find(c => c.nombre && c.nombre.toLowerCase().includes('herdez'));
-  const herdezPct = herdez && totalIngresos > 0
-    ? Math.round((parseFloat(herdez.ingreso_mensual) || 0) / totalIngresos * 100)
-    : 52;
-  const hoy = new Date();
-  const enRiesgo = clientes.filter(c => {
-    if (!c.ultimo_contacto) return false;
-    return (hoy - new Date(c.ultimo_contacto)) / 86400000 >= 30;
-  }).length;
-  const leadsEsteMes = leads.filter(l => {
-    if (!l.fecha_entrada) return false;
-    const f = new Date(l.fecha_entrada);
-    return f.getMonth() === hoy.getMonth() && f.getFullYear() === hoy.getFullYear();
-  }).length;
-
-  DATA.kpis[0].value = '$' + totalIngresos.toLocaleString('es-MX');
-  DATA.kpis[1].value = String(r.total_clientes_activos || clientes.length);
-  DATA.kpis[2].value = herdezPct + '%';
-  DATA.kpis[3].value = String(leadsEsteMes);
-  DATA.kpis[4].value = String(enRiesgo);
-
-  const colores = ['#F87171','#3B82F6','#60A5FA','#34D399','#93C5FD','#6EE7B7','#BFDBFE','#374151'];
-  if (raw.concentracion && raw.concentracion.length > 0) {
-    DATA.clientes = raw.concentracion.slice(0,8).map((c,i) => ({
-      nombre: c.nombre, pct: c.porcentaje, color: colores[i] || '#374151', meses: 0
-    }));
-    const h = DATA.clientes[0];
-    if (h) document.getElementById('herdez-pct').textContent = h.pct + '%';
+function mergeGithubData(raw){
+  const r=raw.resumen||{},clientes=raw.clientes||[],leads=raw.leads||[];
+  const total=r.total_ingresos_mensual||0;
+  const hoy=new Date();
+  const herdez=clientes.find(c=>c.nombre&&c.nombre.toLowerCase().includes('herdez'));
+  const hPct=herdez&&total>0?Math.round((parseFloat(herdez.ingreso_mensual)||0)/total*100):52;
+  const enRiesgo=clientes.filter(c=>{if(!c.ultimo_contacto)return false;return(hoy-new Date(c.ultimo_contacto))/86400000>=30;}).length;
+  const leadsEsteMes=leads.filter(l=>{if(!l.fecha_entrada)return false;const f=new Date(l.fecha_entrada);return f.getMonth()===hoy.getMonth()&&f.getFullYear()===hoy.getFullYear();}).length;
+  DATA.kpis[0].value='$'+total.toLocaleString('es-MX');
+  DATA.kpis[1].value=String(r.total_clientes_activos||clientes.length);
+  DATA.kpis[2].value=hPct+'%';
+  DATA.kpis[3].value=String(leadsEsteMes);
+  DATA.kpis[4].value=String(enRiesgo);
+  const cols=['#F87171','#3B82F6','#60A5FA','#34D399','#93C5FD','#6EE7B7','#BFDBFE','#374151'];
+  if(raw.concentracion&&raw.concentracion.length>0){
+    DATA.clientes=raw.concentracion.slice(0,8).map((c,i)=>({nombre:c.nombre,pct:c.porcentaje,color:cols[i]||'#374151'}));
+    const h=DATA.clientes[0];if(h)document.getElementById('herdez-pct').textContent=h.pct+'%';
   }
-  if (leads.length > 0) {
-    DATA.leads = leads.slice(0,6).map(l => {
-      const dias = l.fecha_entrada ? Math.floor((hoy - new Date(l.fecha_entrada)) / 86400000) : 0;
-      return {
-        empresa: l.empresa || l.nombre || '—',
-        industria: l.industria || '—', dias,
-        estado: l.estado === 'nuevo' ? 'new' : l.estado === 'cerrado' ? 'closed' : 'follow'
-      };
-    });
-  }
-  const alertas = clientes.filter(c => c.ultimo_contacto).map(c => {
-    const dias = Math.floor((hoy - new Date(c.ultimo_contacto)) / 86400000);
-    return { nombre: c.nombre, dias };
-  }).sort((a,b) => b.dias - a.dias).slice(0,4).map(c => {
-    if (c.dias >= 40) return { tipo:'danger', titulo:c.nombre, msg:`${c.dias} días sin contacto. Riesgo alto.`, icon:'ti-alert-circle' };
-    if (c.dias >= 25) return { tipo:'warn',   titulo:c.nombre, msg:`${c.dias} días sin contacto. Llamar.`,     icon:'ti-clock' };
-    return               { tipo:'ok',     titulo:c.nombre, msg:`${c.dias} días. Al día.`,                 icon:'ti-circle-check' };
-  });
-  if (alertas.length > 0) DATA.alertas = alertas;
-  const cF = clientes.filter(c => c.ultimo_contacto).map(c => ({
-    nombre: c.nombre,
-    dias: Math.floor((hoy - new Date(c.ultimo_contacto)) / 86400000)
-  })).sort((a,b) => b.dias - a.dias).slice(0,8);
-  if (cF.length > 0) {
-    DATA.contacto.clientes = cF.map(c => c.nombre);
-    DATA.contacto.dias     = cF.map(c => c.dias);
-  }
+  if(leads.length>0){DATA.leads=leads.slice(0,6).map(l=>{const dias=l.fecha_entrada?Math.floor((hoy-new Date(l.fecha_entrada))/86400000):0;return{empresa:l.empresa||l.nombre||'—',industria:l.industria||'—',dias,estado:l.estado==='nuevo'?'new':l.estado==='cerrado'?'closed':'follow'};});}
+  const alertas=clientes.filter(c=>c.ultimo_contacto).map(c=>{const dias=Math.floor((hoy-new Date(c.ultimo_contacto))/86400000);return{nombre:c.nombre,dias};}).sort((a,b)=>b.dias-a.dias).slice(0,4).map(c=>{if(c.dias>=40)return{tipo:'danger',titulo:c.nombre,msg:`${c.dias} días sin contacto. Riesgo alto.`,icon:'ti-alert-circle'};if(c.dias>=25)return{tipo:'warn',titulo:c.nombre,msg:`${c.dias} días sin contacto. Llamar.`,icon:'ti-clock'};return{tipo:'ok',titulo:c.nombre,msg:`${c.dias} días. Al día.`,icon:'ti-circle-check'};});
+  if(alertas.length>0)DATA.alertas=alertas;
+  const cF=clientes.filter(c=>c.ultimo_contacto).map(c=>({nombre:c.nombre,dias:Math.floor((hoy-new Date(c.ultimo_contacto))/86400000)})).sort((a,b)=>b.dias-a.dias).slice(0,8);
+  if(cF.length>0){DATA.contacto.clientes=cF.map(c=>c.nombre);DATA.contacto.dias=cF.map(c=>c.dias);}
 }
 
-async function cargarDatosGithub() {
-  const nota = document.getElementById('footer-note');
-  nota.textContent = 'cargando datos en vivo…';
-  try {
-    const res = await fetch(GITHUB_DATA_URL + '?t=' + Date.now());
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const raw = await res.json();
+async function cargarDatos(){
+  const nota=document.getElementById('footer-note');
+  nota.textContent='cargando datos en vivo…';
+  try{
+    const res=await fetch(GITHUB_DATA_URL+'?t='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const raw=await res.json();
     mergeGithubData(raw);
-    const ts = raw.ultima_actualizacion
-      ? new Date(raw.ultima_actualizacion).toLocaleString('es-MX', { dateStyle:'short', timeStyle:'short' })
-      : 'ahora';
-    nota.textContent = 'última actualización: ' + ts + ' · datos en vivo desde Google Sheets';
-  } catch (e) {
-    nota.textContent = 'sin conexión — datos de ejemplo · ' + e.message;
+    const ts=raw.ultima_actualizacion?new Date(raw.ultima_actualizacion).toLocaleString('es-MX',{dateStyle:'short',timeStyle:'short'}):'ahora';
+    nota.textContent='última actualización: '+ts+' · datos en vivo desde Google Sheets';
+  }catch(e){
+    nota.textContent='sin conexión — datos de ejemplo · '+e.message;
   }
   renderAll();
 }
 
-function simularActualizacion() {
+function simularActualizacion(){
   Chart.getChart('donutChart')?.destroy();
   Chart.getChart('trendChart')?.destroy();
   Chart.getChart('contactChart')?.destroy();
-  cargarDatosGithub();
+  cargarDatos();
 }
 
-cargarDatosGithub();
+cargarDatos();
 </script>
+</body>
+</html>
