@@ -1,0 +1,49 @@
+{
+  "ultima_actualizacion": "2026-05-28T17:20:08.295Z",
+  "resumen": {
+    "total_ingresos_mensual": 15000,
+    "total_clientes_activos": 1,
+    "leads_este_mes": 1
+  },
+  "concentracion": [
+    {
+      "nombre": "Herdez",
+      "ingreso": 15000,
+      "porcentaje": 100
+    }
+  ],
+  "clientes": [
+    {
+      "row_number": 2,
+      "id_cliente": 1,
+      "nombre": "Herdez",
+      "industria": "Alimentos",
+      "ingreso_mensual": 15000,
+      "fecha_inicio": "2022-01-01",
+      "ultimo_contacto": "2026-05-01",
+      "activo": true
+    }
+  ],
+  "leads": [
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Juan Garcia",
+      "empresa": "Tequila X",
+      "industria": "Bebidas",
+      "fecha_entrada": "2026-05-15",
+      "fuente ": "Google",
+      "estado": "nuevo"
+    }
+  ],
+  "historico": [
+    {
+      "row_number": 2,
+      "fecha": "2026-05-01",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 15000,
+      "tipo": "ingreso"
+    }
+  ]
+}
