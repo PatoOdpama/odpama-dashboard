@@ -1,15 +1,55 @@
 {
-  "ultima_actualizacion": "2026-05-28T17:20:08.295Z",
+  "ultima_actualizacion": "2026-05-28T21:10:49.410Z",
   "resumen": {
-    "total_ingresos_mensual": 15000,
-    "total_clientes_activos": 1,
-    "leads_este_mes": 1
+    "total_ingresos_mensual": 350421,
+    "total_clientes_activos": 9,
+    "leads_este_mes": 9
   },
   "concentracion": [
     {
       "nombre": "Herdez",
-      "ingreso": 15000,
-      "porcentaje": 100
+      "ingreso": 231000,
+      "porcentaje": 66
+    },
+    {
+      "nombre": "Impro",
+      "ingreso": 48000,
+      "porcentaje": 14
+    },
+    {
+      "nombre": "Innovasense",
+      "ingreso": 16031,
+      "porcentaje": 5
+    },
+    {
+      "nombre": "Teknia",
+      "ingreso": 11449,
+      "porcentaje": 3
+    },
+    {
+      "nombre": "Pronaresa",
+      "ingreso": 11031,
+      "porcentaje": 3
+    },
+    {
+      "nombre": "Piasa",
+      "ingreso": 9570,
+      "porcentaje": 3
+    },
+    {
+      "nombre": "Anvi",
+      "ingreso": 8340,
+      "porcentaje": 2
+    },
+    {
+      "nombre": "Inmodal",
+      "ingreso": 8000,
+      "porcentaje": 2
+    },
+    {
+      "nombre": "Arena Potosi",
+      "ingreso": 7000,
+      "porcentaje": 2
     }
   ],
   "clientes": [
@@ -18,9 +58,89 @@
       "id_cliente": 1,
       "nombre": "Herdez",
       "industria": "Alimentos",
-      "ingreso_mensual": 15000,
-      "fecha_inicio": "2022-01-01",
-      "ultimo_contacto": "2026-05-01",
+      "ingreso_mensual": 231000,
+      "fecha_inicio": "2024-03-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 3,
+      "id_cliente": 2,
+      "nombre": "Impro",
+      "industria": "Metal mecanica",
+      "ingreso_mensual": 48000,
+      "fecha_inicio": "2023-08-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 4,
+      "id_cliente": 3,
+      "nombre": "Anvi",
+      "industria": "Metal mecanica",
+      "ingreso_mensual": 8340,
+      "fecha_inicio": "2021-04-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 5,
+      "id_cliente": 4,
+      "nombre": "Piasa",
+      "industria": "Alimetos",
+      "ingreso_mensual": 9570,
+      "fecha_inicio": "2024-08-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 6,
+      "id_cliente": 5,
+      "nombre": "Teknia",
+      "industria": "Automotriz",
+      "ingreso_mensual": 11449,
+      "fecha_inicio": "2026-02-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 7,
+      "id_cliente": 6,
+      "nombre": "Innovasense",
+      "industria": "Automotriz",
+      "ingreso_mensual": 16031,
+      "fecha_inicio": "2026-02-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 8,
+      "id_cliente": 7,
+      "nombre": "Pronaresa",
+      "industria": "Pesquera ",
+      "ingreso_mensual": 11031,
+      "fecha_inicio": "2025-09-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 9,
+      "id_cliente": 8,
+      "nombre": "Inmodal",
+      "industria": "Combustible",
+      "ingreso_mensual": 8000,
+      "fecha_inicio": "2024-01-01",
+      "ultimo_contacto": "2026-05-28",
+      "activo": true
+    },
+    {
+      "row_number": 10,
+      "id_cliente": 9,
+      "nombre": "Arena Potosi",
+      "industria": "Espectaculos",
+      "ingreso_mensual": 7000,
+      "fecha_inicio": "2025-01-01",
+      "ultimo_contacto": "2026-05-28",
       "activo": true
     }
   ],
@@ -28,21 +148,237 @@
     {
       "row_number": 2,
       "id_lead": 1,
-      "nombre": "Juan Garcia",
-      "empresa": "Tequila X",
-      "industria": "Bebidas",
-      "fecha_entrada": "2026-05-15",
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
       "fuente ": "Google",
-      "estado": "nuevo"
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
+    },
+    {
+      "row_number": 2,
+      "id_lead": 1,
+      "nombre": "Patricio ",
+      "empresa": "Odpama",
+      "industria": "Agua",
+      "fecha_entrada": "2026-05-26",
+      "fuente ": "Google",
+      "estado": "Activo"
     }
   ],
   "historico": [
     {
       "row_number": 2,
-      "fecha": "2026-05-01",
+      "fecha": "2026-05-28",
       "id_cliente": 1,
       "concepto ": "Servicio Mensual",
-      "monto ": 15000,
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 2,
+      "fecha": "2026-05-28",
+      "id_cliente": 1,
+      "concepto ": "Servicio Mensual",
+      "monto ": 232000,
+      "tipo": "ingreso"
+    },
+    {
+      "row_number": 3,
+      "fecha": "2026-05-28",
+      "id_cliente": 2,
+      "concepto ": "Servicio Mensual",
+      "monto ": 26978,
       "tipo": "ingreso"
     }
   ]
